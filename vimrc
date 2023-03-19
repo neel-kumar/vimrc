@@ -41,9 +41,11 @@ set statusline+=\:%L
 set statusline+=\ ][
 set statusline+=\ %Y
 set statusline+=\ ]
+set statusline+=\ %m
 
 " custom macros
-nnoremap ,ide :term<CR><c-w><c-w>:resize 35<CR>:NERDTree<CR><c-w><c-w><c-w><c-w>
+nnoremap ,ide :set number<CR>:term<CR><c-w>j:resize 35<CR>:NERDTree<CR><c-w>l<c-w>j
+nnoremap ,icl <c-w><c-w>:q<CR>exit<CR>
 
 " filetype dependent
 autocmd FileType cpp          nnoremap <buffer> ,com :!g++-12 %<CR>
