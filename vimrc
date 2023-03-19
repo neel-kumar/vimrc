@@ -26,7 +26,7 @@ let g:ycm_semantic_triggers = { 'cpp': [ 're!.' ] }
 set wildmenu
 syntax on
 "set termguicolors
-colorscheme iceberg
+colorscheme gruvbox
 hi Normal guibg=NONE ctermbg=NONE
 set autoindent
 set laststatus=2
