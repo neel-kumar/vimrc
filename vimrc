@@ -13,6 +13,7 @@ call vundle#begin()
 Plugin 'flazz/vim-colorschemes'
 Plugin 'preservim/nerdtree'
 Plugin 'valloric/youcompleteme'
+Plugin 'bling/vim-bufferline'
 call vundle#end()            " required
 filetype plugin indent on    " required
 "ycm config
