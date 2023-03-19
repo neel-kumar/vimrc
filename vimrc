@@ -26,11 +26,14 @@ let g:ycm_semantic_triggers = { 'cpp': [ 're!.' ] }
 set wildmenu
 syntax on
 "set termguicolors
-colorscheme iceberg
+colorscheme industry
 set autoindent
 set laststatus=2
 set ttimeout ttimeoutlen=50
 set tabstop=4
+set shiftwidth=4
+set list
+set listchars=tab:\ \ ┊
 
 "status bar
 set statusline=
