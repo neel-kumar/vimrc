@@ -9,20 +9,23 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required Plugin 'VundleVim/Vundle.vim'
-"Otros plugins
+" Otros plugins
 Plugin 'flazz/vim-colorschemes'
 Plugin 'preservim/nerdtree'
-Plugin 'valloric/youcompleteme'
 Plugin 'bling/vim-bufferline'
+Plugin 'valloric/youcompleteme'
 call vundle#end()            " required
 filetype plugin indent on    " required
-"ycm config
-set completeopt-=preview
-let g:ycm_show_diagnostics_ui = 0
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_semantic_triggers = { 'cpp': [ 're!.' ] }
+" bufferline
+let g:bufferline_rotate = 2
+" ycm
+"set completeopt-=preview
+"let g:ycm_show_diagnostics_ui = 0
+"let g:ycm_confirm_extra_conf = 0
+"let g:ycm_semantic_triggers = { 'cpp': [ 're!.' ] }
 
 " general settings
+set showcmd
 set wildmenu
 syntax on
 "set termguicolors
@@ -35,25 +38,18 @@ set tabstop=4
 set shiftwidth=4
 set list
 set listchars=tab:\ \ ┊
-set number
 
-"status bar
-set statusline=
-set statusline+=\ [ 
-set statusline+=\ %F 
-set statusline+=\ ][
-set statusline+=\ %l
-set statusline+=\:%L
-set statusline+=\ ][
-set statusline+=\ %Y
-set statusline+=\ ]
-set statusline+=\ %m
+" status bar +buffers
+let g:bufferline_echo = 0
+  autocmd VimEnter *
+    \ let &statusline='%{bufferline#refresh_status()}[%F] [%l:%L] [%Y]  <|> '
+    \ .bufferline#get_status_string()
 
 " custom macros
-nnoremap ,ide :set number<CR>:term<CR><c-w>j:resize 35<CR>:NERDTree<CR><c-w>l<c-w>j
-nnoremap ,icl <c-w><c-w>:q<CR>exit<CR>
+nnoremap ,i :set number<CR>:term<CR><c-w>j:resize 35<CR>:NERDTree<CR><c-w>l<c-w>j
+nnoremap ,l <c-w><c-w>:q<CR>exit<CR>
 
 " filetype dependent
-autocmd FileType cpp          nnoremap <buffer> ,com :!g++-12 %<CR>
-autocmd FileType cpp          nnoremap <buffer> ,run :!./a.out<CR>
-autocmd FileType python       nnoremap <buffer> ,run :!python3 %<CR>
+autocmd FileType cpp          nnoremap <buffer> ,c :!g++-12 %<CR>
+autocmd FileType cpp          nnoremap <buffer> ,r :!./a.out<CR>
+autocmd FileType python       nnoremap <buffer> ,r :!python3 %<CR>
