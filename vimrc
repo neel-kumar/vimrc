@@ -2,22 +2,18 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin()
+Plug 'flazz/vim-colorschemes'
+Plug 'preservim/nerdtree'
+Plug 'bling/vim-bufferline'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'wfxr/minimap.vim'
+Plug 'jiangmiao/auto-pairs'
+call plug#end()
 
-" let Vundle manage Vundle, required Plugin 'VundleVim/Vundle.vim'
-" Otros plugins
-Plugin 'flazz/vim-colorschemes'
-Plugin 'preservim/nerdtree'
-Plugin 'bling/vim-bufferline'
-Plugin 'valloric/youcompleteme'
-call vundle#end()            " required
 filetype plugin indent on    " required
 " bufferline
-let g:bufferline_rotate = 2
+let g:bufferline_rotate = 0
 " ycm
 "set completeopt-=preview
 "let g:ycm_show_diagnostics_ui = 0
@@ -34,22 +30,34 @@ hi Normal guibg=NONE ctermbg=NONE
 set autoindent
 set laststatus=2
 set ttimeout ttimeoutlen=50
-set tabstop=4
-set shiftwidth=4
-set list
+set tabstop=2
+set shiftwidth=2
+set statusline=[%f]\ [%3l:%3L]\ [%Y]\ %m
+set hlsearch
 set listchars=tab:\ \ ┊
+set list
 
-" status bar +buffers
-let g:bufferline_echo = 0
-  autocmd VimEnter *
-    \ let &statusline='%{bufferline#refresh_status()}[%F] [%l:%L] [%Y]  <|> '
-    \ .bufferline#get_status_string()
+"    \ let &statusline='%{bufferline#refresh_status()}[%F] [%3l:%3L] [%Y]  <|> '
+"let g:bufferline_echo = 0
+"  autocmd VimEnter *
+"    \ let &statusline='[%3l:%3L] [%Y]  <|> %-.20{bufferline#refresh_status()}'
+"    \ .bufferline#get_status_string()
 
 " custom macros
-nnoremap ,i :set number<CR>:term<CR><c-w>j:resize 35<CR>:NERDTree<CR><c-w>l<c-w>j
-nnoremap ,l <c-w><c-w>:q<CR>exit<CR>
+"nnoremap ,i :set number<CR>:term<CR><c-w>j:resize 35<CR>:NERDTree<CR><c-w>l<c-w>j
+nnoremap ,i :set number<CR>:NERDTree<CR><c-w><c-w>:Minimap<CR>
+"nnoremap ,l <c-w><c-w>:q<CR>exit<CR>
+nnoremap ,l <c-w><c-w><c-w><c-w>:q<CR>:MinimapClose<CR>
+nnoremap ,v ggVG"*y
+autocmd BufWritePre * :%s/\s\+$//e
 
 " filetype dependent
-autocmd FileType cpp          nnoremap <buffer> ,c :!g++-12 %<CR>
+autocmd FileType cpp          nnoremap <buffer> ,c :!g++-12 % -O2 -Wall -lm<CR>
 autocmd FileType cpp          nnoremap <buffer> ,r :!./a.out<CR>
+autocmd FileType cpp          set listchars=tab:\ \ ┊
+autocmd FileType cpp          set list
+autocmd FileType cpp          set tabstop=2
+autocmd FileType cpp          set shiftwidth=2
 autocmd FileType python       nnoremap <buffer> ,r :!python3 %<CR>
+
+" COC
