@@ -9,6 +9,7 @@ Plug 'bling/vim-bufferline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'wfxr/minimap.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'mhinz/vim-startify'
 call plug#end()
 
 filetype plugin indent on    " required
@@ -25,13 +26,13 @@ set showcmd
 set wildmenu
 syntax on
 "set termguicolors
-colorscheme gruvbox
+"colorscheme gruvbox
 hi Normal guibg=NONE ctermbg=NONE
 set autoindent
 set laststatus=2
 set ttimeout ttimeoutlen=50
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set statusline=[%f]\ [%3l:%3L]\ [%Y]\ %m
 set hlsearch
 set listchars=tab:\ \ ┊
@@ -47,17 +48,31 @@ set list
 "nnoremap ,i :set number<CR>:term<CR><c-w>j:resize 35<CR>:NERDTree<CR><c-w>l<c-w>j
 nnoremap ,i :set number<CR>:NERDTree<CR><c-w><c-w>:Minimap<CR>
 "nnoremap ,l <c-w><c-w>:q<CR>exit<CR>
-nnoremap ,l <c-w><c-w><c-w><c-w>:q<CR>:MinimapClose<CR>
+nnoremap ,l :MinimapClose<CR>:NERDTreeClose<CR>
 nnoremap ,v ggVG"*y
 autocmd BufWritePre * :%s/\s\+$//e
 
 " filetype dependent
-autocmd FileType cpp          nnoremap <buffer> ,c :!g++-12 % -O2 -Wall -lm<CR>
-autocmd FileType cpp          nnoremap <buffer> ,r :!./a.out<CR>
+autocmd FileType cpp          nnoremap <buffer> ,c :!g++ % -O2 -Wall -lm; echo -e "\033[1;31m"<CR>
+autocmd FileType cpp          nnoremap <buffer> ,r :!echo -e "\033[1;32m"; ./a.out<CR>
 autocmd FileType cpp          set listchars=tab:\ \ ┊
 autocmd FileType cpp          set list
-autocmd FileType cpp          set tabstop=2
-autocmd FileType cpp          set shiftwidth=2
 autocmd FileType python       nnoremap <buffer> ,r :!python3 %<CR>
+autocmd FileType javascript   nnoremap <buffer> ,r :!node %<CR>
 
-" COC
+" STARTUP SCREEN???
+" goal: list *temp.* files in directory
+call system(': > temps.txt')
+call system('ls *temp.* > temps.txt')
+let s:lines = readfile('temps.txt')
+let s:lines_startify = []
+let cnt = 0
+for i in s:lines
+	call add(s:lines_startify, {cnt: i})
+	let cnt = cnt+1
+endfor
+let g:startify_bookmarks = s:lines_startify
+let g:startify_lists = [{'type': 'bookmarks', 'header': [' ===> TEMPLATES:']}]
+
+let s:header_list = readfile(glob('~/header.txt'))
+let g:startify_custom_header = s:header_list
