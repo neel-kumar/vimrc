@@ -9,7 +9,7 @@ Plug 'bling/vim-bufferline'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'wfxr/minimap.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify', {'branch': 'center'}
 call plug#end()
 
 filetype plugin indent on    " required
@@ -49,7 +49,8 @@ set list
 nnoremap ,i :set number<CR>:NERDTree<CR><c-w><c-w>:Minimap<CR>
 "nnoremap ,l <c-w><c-w>:q<CR>exit<CR>
 nnoremap ,l :MinimapClose<CR>:NERDTreeClose<CR>
-nnoremap ,v ggVG"*y
+nnoremap ,t ggVG"*y
+nmap ,e :split<CR>:e .<CR>
 autocmd BufWritePre * :%s/\s\+$//e
 
 " filetype dependent
@@ -65,7 +66,7 @@ autocmd FileType javascript   nnoremap <buffer> ,r :!node %<CR>
 call system(': > temps.txt')
 call system('ls *temp.* > temps.txt')
 let s:lines = readfile('temps.txt')
-let s:lines_startify = []
+let s:lines_startify = [{'V': '/Users/neelkumar/.vimrc'}]
 let cnt = 0
 for i in s:lines
 	call add(s:lines_startify, {cnt: i})
@@ -75,4 +76,5 @@ let g:startify_bookmarks = s:lines_startify
 let g:startify_lists = [{'type': 'bookmarks', 'header': [' ===> TEMPLATES:']}]
 
 let s:header_list = readfile(glob('~/header.txt'))
-let g:startify_custom_header = s:header_list
+let g:startify_custom_header =
+      \ startify#center(s:header_list)
